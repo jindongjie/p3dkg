@@ -1,4 +1,4 @@
-# p3dv5kg
+# p3dv5kg [![.NET 8 NativeAOT CLI Publish](https://github.com/jindongjie/p3dv5kg/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/jindongjie/p3dv5kg/actions/workflows/dotnet-desktop.yml)
 
 ## Usage
 This program is designed to test and comfirm activate-behavior to Prepar3D Software, maximum version is V5. You can either let the program automatically decide what type of license to use or manually specify it: 'academic', 'professional', 'professional-plus'.
