@@ -1,4 +1,4 @@
-# p3dkg [![.NET 8 NativeAOT CLI Publish](https://github.com/jindongjie/p3dkg/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/jindongjie/p3dkg/actions/workflows/dotnet-desktop.yml) [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-highlight.svg)](https://sonarcloud.io/summary/new_code?id=jindongjie_p3dv5kg)
+# p3dkg [![.NET 8 NativeAOT CLI Publish](https://github.com/jindongjie/p3dkg/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/jindongjie/p3dkg/actions/workflows/dotnet-desktop.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jindongjie_p3dv5kg&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jindongjie_p3dv5kg)  [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-highlight.svg)](https://sonarcloud.io/summary/new_code?id=jindongjie_p3dv5kg)
 
 
 
