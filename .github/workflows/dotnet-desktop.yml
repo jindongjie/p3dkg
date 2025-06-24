@@ -69,6 +69,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./publish/${{ matrix.arch }}/p3dv5kg.exe
-        asset_name: p3dv5kg.exe
+        asset_path: ./publish/${{ matrix.arch }}/p3dkg.exe
+        asset_name: p3dkg.exe
         asset_content_type: application/octet-stream
