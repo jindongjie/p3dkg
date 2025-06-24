@@ -67,14 +67,23 @@ namespace p3dkg
                 ProfessionalPlus = new CustemParameter { Edition = "6160", Option = "1103" }
             },
             //Not find out yet
-            // just copy v5 
-            ["v6"] = new Prepar3DRegistryKeys
+            // just copy v5
+            ["v6"] = 
+                
+                
+                new Prepar3DRegistryKeys
             {
-                ProgIdRegKey = [@"CLSID\{49750546-2367-4E1C-9ADD-ED46247A70AA}\ProgID"],
-                LicenseRegKey = @"SOFTWARE\Lockheed Martin\Prepar3D v6",
-                Acdemic = new CustemParameter { Edition = "6112", Option = "1089" },
-                Professional = new CustemParameter { Edition = "6136", Option = "1096" },
-                ProfessionalPlus = new CustemParameter { Edition = "6160", Option = "1103" }
+                    ProgIdRegKey = 
+                        [@"CLSID\{49750546-2367-4E1C-9ADD-ED46247A70AA}\ProgID"], 
+                LicenseRegKey = @"SOFTWARE\Lockheed Martin\Prepar3D v6", 
+                    
+                Acdemic = new CustemParameter { Edition = "6112", Option = "1089" }, 
+                         Professional = new CustemParameter { Edition = "6136", Option = "1096" }, 
+                    ProfessionalPlus = new CustemParameter { Edition = "6160", Option = "1103" 
+                                                            } 
+            
+            
+            
             }
         };
         private static string VSN = ""; //Volume Serial Number
