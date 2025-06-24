@@ -9,15 +9,12 @@ on:
 jobs:
   build-and-publish:
     runs-on: windows-latest
-
     strategy:
       matrix:
         arch: [win-x64]
-
     env:
-      Solution_Name: p3dv5kg.sln           # Replace with your actual solution name
-      Project_Path: p3dv5kg.csproj           # Replace with your actual project path
-
+      Solution_Name: p3dv5kg.sln
+      Project_Path: p3dv5kg.csproj
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -47,8 +44,14 @@ jobs:
         --self-contained true
         --output ./publish/${{ matrix.arch }}
         --no-build
-    - name: Upload Published NativeAOT (${{ matrix.arch }})
-      uses: actions/upload-artifact@v4
+
+    - name: Upload Release Asset (Windows Executable)
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: nativeaot-${{ matrix.arch }}
-        path: ./publish/${{ matrix.arch }}
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./publish/${{ matrix.arch }}/p3dv5kg.exe
+        asset_name: p3dv5kg.exe
+        asset_content_type: application/octet-stream
