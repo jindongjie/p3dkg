@@ -1,4 +1,5 @@
-# p3dkg
+# p3dkg [![.NET 8 NativeAOT CLI Publish](https://github.com/jindongjie/p3dkg/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/jindongjie/p3dkg/actions/workflows/dotnet-desktop.yml) [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-highlight.svg)](https://sonarcloud.io/summary/new_code?id=jindongjie_p3dv5kg)
+
 
 
 ![Background Image](resources/bgpic.png)
