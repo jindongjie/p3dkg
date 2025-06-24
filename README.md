@@ -20,4 +20,4 @@ dotnet publish -r win-x64 -c Release
 ```
 
 ## Lisence
-This program is license by DWTFYW (Do What The F*ck You Want Public License) v2.0, see [LICENSE](LICENSE) for more details.)
+This program is license by WTFPL (Do What The F*ck You Want To Public License) v2.0, see [LICENSE](LICENSE) for more details.)
