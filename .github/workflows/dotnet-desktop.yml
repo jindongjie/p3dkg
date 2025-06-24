@@ -1,57 +1,33 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# This workflow will build, test, sign and package a WPF or Windows Forms desktop application
-# built on .NET Core.
-# To learn how to migrate your existing application to .NET Core,
-# refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
-#
-# To configure this workflow:
-#
-# 1. Configure environment variables
-# GitHub sets default environment variables for every workflow run.
-# Replace the variables relative to your project in the "env" section below.
-#
-# 2. Signing
-# Generate a signing certificate in the Windows Application
-# Packaging Project or add an existing signing certificate to the project.
-# Next, use PowerShell to encode the .pfx file using Base64 encoding
-# by running the following Powershell script to generate the output string:
-#
-# $pfx_cert = Get-Content '.\SigningCertificate.pfx' -Encoding Byte
-# [System.Convert]::ToBase64String($pfx_cert) | Out-File 'SigningCertificate_Encoded.txt'
-#
-# Open the output file, SigningCertificate_Encoded.txt, and copy the
-# string inside. Then, add the string to the repo as a GitHub secret
-# and name it "Base64_Encoded_Pfx."
-# For more information on how to configure your signing certificate for
-# this workflow, refer to https://github.com/microsoft/github-actions-for-desktop-apps#signing
-#
-# Finally, add the signing certificate password to the repo as a secret and name it "Pfx_Key".
-# See "Build the Windows Application Packaging project" below to see how the secret is used.
-#
-# For more information on GitHub Actions, refer to https://github.com/features/actions
-# For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
-# refer to https://github.com/microsoft/github-actions-for-desktop-apps
-
 name: .NET 8 NativeAOT CLI Publish
+permissions:
+  actions: write
+  attestations: write
+  checks: write
+  contents: write
+  deployments: write
+  discussions: write
+  issues: write
+  packages: write
+  pages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  release:
+    types: [created]
 
 jobs:
   build-and-publish:
     runs-on: windows-latest
-
     strategy:
       matrix:
         arch: [win-x64]
-
     env:
       Solution_Name: p3dkg.sln           # Replace with your actual solution name
       Project_Path: p3dkg.csproj           # Replace with your actual project path
@@ -70,6 +46,9 @@ jobs:
     - name: Restore
       run: dotnet restore $env:Solution_Name
 
+    - name: Restore (Runtime-specific)
+      run: dotnet restore $env:Project_Path --runtime ${{ matrix.arch }}
+
     - name: Build
       run: dotnet build $env:Solution_Name --configuration Release --no-restore
 
@@ -83,8 +62,13 @@ jobs:
         --output ./publish/${{ matrix.arch }}
         --no-build
 
-    - name: Upload Published NativeAOT (${{ matrix.arch }})
-      uses: actions/upload-artifact@v4
+    - name: Upload Release Asset (Windows Executable)
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: nativeaot-${{ matrix.arch }}
-        path: ./publish/${{ matrix.arch }}
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./publish/${{ matrix.arch }}/p3dv5kg.exe
+        asset_name: p3dv5kg.exe
+        asset_content_type: application/octet-stream
