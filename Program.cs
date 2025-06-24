@@ -9,7 +9,7 @@ namespace p3dkg
     internal class Program
     {
         //Diffrent version of P3D required variant of registry keys (Uniqe License Key and some Progam-id Key)
-        private class Prepar3DRegistryKeys
+        private sealed class Prepar3DRegistryKeys
         {
             public required List<string> ProgIdRegKey { get; set; }
             public required string LicenseRegKey { get; set; }
@@ -19,7 +19,7 @@ namespace p3dkg
             public required CustemParameter ProfessionalPlus { get; set; }
         }
 
-        private class CustemParameter
+        private sealed class CustemParameter
         {
             public required string Edition { get; set; }
             public required string Option { get; set; }
@@ -57,6 +57,7 @@ namespace p3dkg
                 Professional = new CustemParameter { Edition = "6040", Option = "1096" },
                 ProfessionalPlus = new CustemParameter { Edition = "6064", Option = "1103" }
             },
+            //v5 is the latest completed version
             ["v5"] = new Prepar3DRegistryKeys
             {
                 ProgIdRegKey = [@"CLSID\{49750546-2367-4E1C-9ADD-ED46247A70AA}\ProgID"],
@@ -66,6 +67,7 @@ namespace p3dkg
                 ProfessionalPlus = new CustemParameter { Edition = "6160", Option = "1103" }
             },
             //Not find out yet
+            // just copy v5 
             ["v6"] = new Prepar3DRegistryKeys
             {
                 ProgIdRegKey = [@"CLSID\{49750546-2367-4E1C-9ADD-ED46247A70AA}\ProgID"],

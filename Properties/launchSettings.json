@@ -2,7 +2,7 @@
   "profiles": {
     "p3dkg": {
       "commandName": "Project",
-      "commandLineArgs": "-V -t acdemic"
+      "commandLineArgs": "-V -t professinal"
     }
   }
 }
