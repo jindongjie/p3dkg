@@ -50,7 +50,7 @@ jobs:
 
     strategy:
       matrix:
-        arch: [win-x64, win-x86, win-arm64]
+        arch: [win-x64, win-arm64]
 
     env:
       Solution_Name: p3dv5kg.sln           # Replace with your actual solution name
