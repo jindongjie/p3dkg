@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace p3dv5kg
+namespace p3dkg
 {
     internal sealed class BlowFish
     {

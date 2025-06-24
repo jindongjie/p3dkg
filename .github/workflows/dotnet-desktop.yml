@@ -53,8 +53,8 @@ jobs:
         arch: [win-x64]
 
     env:
-      Solution_Name: p3dv5kg.sln           # Replace with your actual solution name
-      Project_Path: p3dv5kg.csproj           # Replace with your actual project path
+      Solution_Name: p3dkg.sln           # Replace with your actual solution name
+      Project_Path: p3dkg.csproj           # Replace with your actual project path
 
     steps:
     - name: Checkout
