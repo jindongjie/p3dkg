@@ -25,7 +25,8 @@ namespace p3dv5kg
 
         static void Main(string[] args)
         {
-            if (!OperatingSystem.IsWindows())
+            PrintAsciiArtTitle();
+            if (!OperatingSystem.IsWindows()) // Only Windows is supported
             {
                 if (OperatingSystem.IsLinux())
                 {
@@ -39,9 +40,6 @@ namespace p3dv5kg
             }
 
             bool showHelp = false;
-            string type = "";
-            string manualArg = "";
-
             for (int i = 0; i < args.Length; i++)
             {
                 switch (args[i])
@@ -54,16 +52,16 @@ namespace p3dv5kg
                     case "-t":
                         if (i + 1 < args.Length)
                         {
-                            type = args[++i].ToLowerInvariant();
+                            string type = args[++i].ToLowerInvariant();
                             if (type != "acdemic" && type != "professinal" && type != "professinal-plus")
                             {
                                 Console.WriteLine("Error: use ‘-h’ to check out type usage.");
                                 return;
                             }
-                            manualArg = args[++i];
+                            string manualArg = type;
                             if (verbose)
                                 Console.WriteLine($"[VERBOSE] Manual activation requested. Type: {type}, Arg: {manualArg}");
-                            manualActivate(manualArg);
+                            ManualActivate(manualArg);
                             return;
                         }
                         else
@@ -78,14 +76,14 @@ namespace p3dv5kg
                 }
             }
 
-            if (showHelp || string.IsNullOrEmpty(type) ||
-                (type == "manual" && string.IsNullOrEmpty(manualArg)))
+            if (showHelp)
             {
-                Console.WriteLine("This program is designed to activate Prepar3D Software, maximum version is V5. You can either let the program automatically decide what type of license to use or manually specify it: 'academic', 'professional', 'professional-plus'.");
+                Console.Beep();
+                Console.WriteLine("This program is designed to activate Prepar3D Software, maximum version is V5. You can either let the program automatically decide what type of license to use or manually specify it: 'academic', 'professional', 'professional-plus'.\r\n");
                 Console.WriteLine("Usage:");
                 Console.WriteLine("  --help | -h    Show help");
                 Console.WriteLine("  --type | -t    Specify type (Default deside by program), 'acdemic' / 'professinal' / 'professinal-plus'");
-                Console.WriteLine("  --verbose | -v Enable verbose output (optional)");
+                Console.WriteLine("  --verbose | -v Enable verbose output (optional)\r\n");
                 return;
             }
             else
@@ -95,11 +93,11 @@ namespace p3dv5kg
                     Console.WriteLine("[VERBOSE] Verbose mode enabled.");
                     Console.WriteLine("[VERBOSE] Starting auto activation process.");
                 }
-                autoActivate();
+                AutoActivate();
             }
         }
 
-        public static void autoActivate()
+        public static void AutoActivate()
         {
             if (!OperatingSystem.IsWindows())
             {
@@ -160,8 +158,13 @@ namespace p3dv5kg
             }
         }
 
-        public static void manualActivate(string manualArg)
+        public static void ManualActivate(string manualArg)
         {
+            if (!OperatingSystem.IsWindows())
+            {
+                Console.WriteLine("This function is only supported on Windows.");
+                return;
+            }
             bool isPrivileged = CheckIfElevated();
             if (verbose)
                 Console.WriteLine($"[VERBOSE] Manual activation. License type: {manualArg}, Privileged: {isPrivileged}");
@@ -169,10 +172,12 @@ namespace p3dv5kg
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
+        //need Windows only API
         private static void Activate(string licenseArg, bool isPrivileged)
         {
             try
             {
+                //Gather system information
                 if (verbose)
                     Console.WriteLine("[VERBOSE] Gathering system information for activation...");
 
@@ -191,6 +196,7 @@ namespace p3dv5kg
                 if (verbose)
                     Console.WriteLine($"[VERBOSE] NIC Address: {NICADDR}");
 
+                //Hash the values
                 hashedVSN = GetHashedBase64String(VSN);
                 hashedCNAME = GetHashedBase64String(CNAME);
                 hashedNICADDR = GetHashedBase64String(NICADDR);
@@ -201,7 +207,7 @@ namespace p3dv5kg
                     Console.WriteLine($"[VERBOSE] Hashed CNAME: {hashedCNAME}");
                     Console.WriteLine($"[VERBOSE] Hashed NICADDR: {hashedNICADDR}");
                 }
-
+                //Installation ID validation
                 InstallID = GetInstallationID();
                 if (string.IsNullOrEmpty(InstallID))
                 {
@@ -252,7 +258,7 @@ namespace p3dv5kg
                         Console.WriteLine("Unknown license type specified.");
                         return;
                 }
-
+                //Run on Admin mode
                 if (isPrivileged)
                 {
                     if (verbose)
@@ -293,10 +299,8 @@ namespace p3dv5kg
         {
             if (verbose)
                 Console.WriteLine($"[VERBOSE] Writing license type '{license}' to registry key '{licregkey}'...");
-            using (var reg = Registry.LocalMachine.OpenSubKey(licregkey, true))
-            {
-                reg?.SetValue("License", license);
-            }
+            using var reg = Registry.LocalMachine.OpenSubKey(licregkey, true);
+            reg?.SetValue("License", license);
         }
 
         private static bool CheckIfElevated()
@@ -382,6 +386,25 @@ namespace p3dv5kg
                 Console.WriteLine("Your Installation seems to be damaged. Registry entries are missing or damaged. I can't continue");
             }
             return "";
+        }
+        private static void PrintAsciiArtTitle()
+        {
+            string[] asciiArt = new[]
+            {
+                @"",
+                @" ________  ________  ________  ___      ___ ________  ___  __    ________     ",
+                @"|\   __  \|\_____  \|\   ___ \|\  \    /  /|\   ____\|\  \|\  \ |\   ____\    ",
+                @"\ \  \|\  \|____|\ /\ \  \_|\ \ \  \  /  / | \  \___|\ \  \/  /|\ \  \___|    ",
+                @" \ \   ____\    \|\  \ \  \ \\ \ \  \/  / / \ \_____  \ \   ___  \ \  \  ___  ",
+                @"  \ \  \___|   __\_\  \ \  \_\\ \ \    / /   \|____|\  \ \  \\ \  \ \  \|\  \ ",
+                @"   \ \__\     |\_______\ \_______\ \__/ /      ____\_\  \ \__\\ \__\ \_______\",
+                @"    \|__|     \|_______|\|_______|\|__|/      |\_________\|__| \|__|\|_______|",
+                @"                                              \|_________|                    ",
+                @"          ",
+                @" Prepar3D v5 Key Generator                 "
+            };
+            foreach (var line in asciiArt)
+                Console.WriteLine(line);
         }
     }
 }
